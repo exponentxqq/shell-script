@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+set TARGET [lindex $argv 0]
+set USER [lindex $argv 1]
+set PASSWD [lindex $argv 2]
+set PORT [lindex $argv 3]
+set timeout 10
+
+spawn ssh $USER@$TARGET -p $PORT
+expect {
+    send $PASSWD
+    "*yes/no" {send "yes\r"; exp_continue}
+    "*Password:" {send "$PASSWD\r"}
+    "vagrant@127.0.0.1's password:" {send "$PASSWD\r"}
+    "xuqinqin@10.35.10.102's password:" {send "$PASSWD\r"}
+    "$USER@$TARGET's password:" {send "$PASSWD\r"}
+}
+interact
