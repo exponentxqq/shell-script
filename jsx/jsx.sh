@@ -25,12 +25,23 @@ if [ ! -d "$target" ]; then
 fi
 
 ignores=(${ignore//:/ })
+if [ -d $source ]; then
+	update=1
+else
+	update=0
+	source="${basedir}/project"
+fi
 for source_item in `ls -a $source`; 
 do
 	source_path="$source/$source_item"
 	isIn=$(inArray $source_item ${ignores[*]})
-	if [ ! $isIn -eq 1 ]; then
-		cp -R "$basedir/project/." "$target"
+	if [ ! $isIn -eq 1 -a ! "$source_item" == "." -a ! "$source_item" == ".." ]; then
+		echo $source_path
+		if [ $update -eq 1 ]; then
+			cp -R "$source_path" "$basedir/project/"
+		fi
+		cp -R "$basedir/project/$source_item" "$target"
 	fi
 done
+
 
