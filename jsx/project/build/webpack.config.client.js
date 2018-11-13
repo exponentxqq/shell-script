@@ -35,6 +35,7 @@ const config = {
         use: {
           loader: "babel-loader",
           options: {
+            // 需要和.babelrc一样
             presets: ['es2015', 'stage-1', 'react'],
             plugins: [
               "transform-decorators-legacy",
@@ -91,8 +92,10 @@ if (isDev) {
   };
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
 } else {
+  console.log('production production production production production production production ')
   config.entry = {
     app: path.join(__dirname, '../client/app.js'),
+    // 将以下三方包单独打包为一个vendor文件
     vendor: [
       'react',
       'react-dom',
@@ -107,12 +110,14 @@ if (isDev) {
   };
   config.output.filename = '[name].[chunkhash].js';
   config.plugins.push(
+    // 保证异步模块的打包文件名不变(将根据模块名命名打包文件)
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
+    // 给模块指定确定的名字
     new webpack.NamedChunksPlugin((chunk) => {
       if (chunk.name) {
         return chunk.name;

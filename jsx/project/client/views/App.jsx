@@ -1,14 +1,38 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
 
-export default () => (<div>this is app</div>)
-//
-// class App extends React.Component {
-//   render() {
-//     return (<div>this is app1111</div>);
-//   }
-// }
-//
-// App.propTypes = propTypes;
-// App.defaultProps = defaultProps;
-//
-// export default App;
+import { AppStore } from '../store/app-store';
+
+// stores是app.js中Provider组件注入的属性
+@inject(stores => ({
+  appStore: stores.appStore,
+})) @observer
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  componentDidCatch(error, info) {
+    console.error(error); // eslint-disable-line
+    console.log(info); // eslint-disable-line
+  }
+
+  render() {
+    const { appStore } = this.props;
+    return (
+      <div>
+        {`this app is ${appStore.appMsg}`}
+      </div>
+    );
+  }
+}
+
+App.wrappedComponent.propTypes = {
+  appStore: PropTypes.instanceOf(AppStore),
+};
+
+App.propTypes = {};
+
+export default App;

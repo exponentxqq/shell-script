@@ -5,28 +5,24 @@ import {
   autorun,
 } from 'mobx';
 
-class AppStore {
-  @observable count = 0;
+export class AppStore {
+  @observable appName = 'exp-blog';
 
-  @observable name = 'xuqinqin';
+  @observable author = 'exp';
 
-  @computed get msg() {
-    return `${this.name} say count is ${this.count}`
+  @computed get appMsg() {
+    return `app_name: ${this.appName}, author: ${this.author}`
   }
 
-  @action add() {
-    this.count += 1;
+  @action changeAuthor(name) {
+    this.author = name;
   }
 }
 
-const appState = new AppStore();
+const appStore = new AppStore();
 
 autorun(() => {
-  console.log(appState.msg)
+  console.log(appStore.msg)
 });
 
-setTimeout(() => {
-  appState.add();
-}, 1000);
-
-export default appState;
+export default appStore;

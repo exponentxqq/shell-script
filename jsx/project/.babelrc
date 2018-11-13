@@ -1,7 +1,7 @@
 {
   "presets": [
     ["es2015", {"loose": true}],
-    "stage-1",
+    "stage-1",   // 支持 @ 语法，为了能够使用mobx
     "react"
   ],
   "plugins": [
