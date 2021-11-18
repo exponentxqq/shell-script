@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-direc=`dirname $0`
+direc=`dirname $(readlink $0)`
 function color(){
     blue="\033[0;36m"
     red="\033[0;31m"
